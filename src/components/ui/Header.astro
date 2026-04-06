@@ -1,0 +1,136 @@
+---
+export interface NavLink {
+  label: string;
+  href: string;
+}
+
+export interface Props {
+  siteName?: string;
+  logo?: string;
+  navLinks?: NavLink[];
+}
+
+const {
+  siteName = 'JL Swimming',
+  logo,
+  navLinks = [
+    { href: '#about', label: 'About' },
+    { href: '#achievements', label: 'Achievements' },
+    { href: '#locations', label: 'Locations' },
+    { href: '#contact', label: 'Contact' },
+  ]
+} = Astro.props;
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <nav class="section-container flex items-center justify-between h-16 sm:h-20">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 group" id="nav-logo">
+      {logo ? (
+        <img src={logo} alt={siteName} class="w-10 h-10 object-contain" />
+      ) : (
+        <div class="relative w-10 h-10 rounded-xl bg-water-gradient flex items-center justify-center shadow-lg shadow-water-600/20 group-hover:shadow-water-600/40 transition-shadow">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M2 12c2-2 4-3 6-3s4 1 6 3 4 3 6 3" stroke-linecap="round"/>
+            <path d="M2 17c2-2 4-3 6-3s4 1 6 3 4 3 6 3" stroke-linecap="round" opacity="0.6"/>
+            <path d="M2 7c2-2 4-3 6-3s4 1 6 3 4 3 6 3" stroke-linecap="round" opacity="0.3"/>
+          </svg>
+        </div>
+      )}
+      <span class="font-display font-bold text-xl text-water-900 header-text-color">
+        {siteName}
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-1" id="nav-desktop">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-water-700 rounded-lg hover:bg-water-50/80 transition-all duration-200 header-link-color"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="#contact"
+        class="ml-3 btn-primary text-sm !px-5 !py-2.5"
+        id="nav-cta"
+      >
+        Enrol Now
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      class="md:hidden p-2 text-gray-600 hover:text-water-700 rounded-lg hover:bg-water-50 transition-colors"
+      id="mobile-menu-btn"
+      aria-label="Toggle menu"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-xl"
+  >
+    <div class="section-container py-4 flex flex-col gap-1">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="mobile-nav-link px-4 py-3 text-base font-medium text-gray-700 hover:text-water-700 rounded-xl hover:bg-water-50 transition-all duration-200"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="#contact"
+        class="mt-2 btn-primary text-center"
+      >
+        Enrol Now
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // ---- Scroll-based header background ----
+  const header = document.getElementById('site-header');
+  const updateHeader = () => {
+    if (!header) return;
+    if (window.scrollY > 50) {
+      header.classList.add('bg-white/90', 'backdrop-blur-xl', 'shadow-sm', 'border-b', 'border-gray-100/50');
+    } else {
+      header.classList.remove('bg-white/90', 'backdrop-blur-xl', 'shadow-sm', 'border-b', 'border-gray-100/50');
+    }
+  };
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+
+  // ---- Mobile menu toggle ----
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  mobileBtn?.addEventListener('click', () => {
+    const isOpen = !mobileMenu?.classList.contains('hidden');
+    mobileMenu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+    });
+  });
+</script>

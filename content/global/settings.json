@@ -1,0 +1,27 @@
+{
+  "siteName": "JL Swimming",
+  "navLinks": [
+    {
+      "label": "About",
+      "href": "#about"
+    },
+    {
+      "label": "Achievements",
+      "href": "#achievements"
+    },
+    {
+      "label": "Locations",
+      "href": "#locations"
+    },
+    {
+      "label": "Contact",
+      "href": "#contact"
+    }
+  ],
+  "footerText": "JL Swimming is a premium swimming school based in Melbourne.",
+  "socialLinks": {
+    "instagram": "https://instagram.com/jlswimming",
+    "facebook": "",
+    "tiktok": ""
+  }
+}

@@ -1,0 +1,109 @@
+---
+/**
+ * JL Swimming — Homepage
+ *
+ * Uses TinaCMS Visual Editing via the `client:tina` directive.
+ * The React PageContent component is ONLY hydrated when the page is viewed
+ * inside the TinaCMS admin iframe — on the normal website, the page is
+ * rendered as pure static HTML by the Astro components with zero JS.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/ui/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+
+import HeroBlock from '../components/blocks/HeroBlock.astro';
+import AboutBlock from '../components/blocks/AboutBlock.astro';
+import AchievementsBlock from '../components/blocks/AchievementsBlock.astro';
+import LocationsBlock from '../components/blocks/LocationsBlock.astro';
+import ContactBlock from '../components/blocks/ContactBlock.astro';
+
+import PageContent from '../components/react/PageContent.tsx';
+import '../styles/global.css';
+
+// --- Fetch TinaCMS data ---
+let pageData: any = null;
+let globalData: any = null;
+let tinaProps: any = null;
+
+try {
+  const mod = await import('../../tina/__generated__/client');
+  const client = mod.default ?? mod.client;
+  
+  if (client?.queries?.page) {
+    const res = await client.queries.page({ relativePath: 'home.json' });
+    pageData = res?.data?.page;
+    // Pass full query/variables/data for useTina visual editing
+    tinaProps = {
+      query: res.query,
+      variables: res.variables,
+      data: res.data,
+    };
+  }
+  
+  if (client?.queries?.global) {
+    const globalRes = await client.queries.global({ relativePath: 'settings.json' });
+    globalData = globalRes?.data?.global;
+  }
+} catch {
+  // TinaCMS not initialised yet — we'll use defaults
+}
+
+const title = pageData?.title || 'JL Swimming — Melbourne Swimming School';
+const metaTitle = pageData?.metaTitle || title;
+const metaDescription =
+  pageData?.metaDescription ||
+  "JL Swimming — Melbourne's premier swimming school. From first strokes to elite performance. Lessons at Knox, Ashburton, Ringwood, Mont Albert & Clayton.";
+
+const blocks: any[] = pageData?.blocks || [];
+
+// Block component mapping
+const blockComponents: Record<string, any> = {
+  PageBlocksHero: HeroBlock,
+  PageBlocksAbout: AboutBlock,
+  PageBlocksAchievements: AchievementsBlock,
+  PageBlocksLocations: LocationsBlock,
+  PageBlocksContact: ContactBlock,
+};
+---
+
+<BaseLayout title={title} metaTitle={metaTitle} metaDescription={metaDescription}>
+  <Header 
+    slot="header" 
+    siteName={globalData?.siteName}
+    logo={globalData?.logo}
+    navLinks={globalData?.navLinks}
+  />
+
+  {/* Visual Editing: React component hydrated ONLY inside TinaCMS admin iframe */}
+  {tinaProps && (
+    <PageContent {...tinaProps} client:tina />
+  )}
+
+  {/* Static Rendering: Astro components for the production site */}
+  {blocks.length > 0 ? (
+    blocks.map((block: any) => {
+      const typename = block.__typename;
+      const Component = blockComponents[typename];
+      if (!Component) return null;
+      return <Component {...block} />;
+    })
+  ) : (
+    <>
+      {/* Fallback: render all blocks with defaults when no CMS data */}
+      <HeroBlock />
+      <AboutBlock />
+      <AchievementsBlock />
+      <LocationsBlock />
+      <ContactBlock />
+    </>
+  )}
+
+  <Footer 
+    slot="footer" 
+    siteName={globalData?.siteName}
+    logo={globalData?.logo}
+    footerText={globalData?.footerText}
+    socialLinks={globalData?.socialLinks}
+  />
+</BaseLayout>

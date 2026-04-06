@@ -1,0 +1,171 @@
+---
+import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+
+export interface Props {
+  heading?: string;
+  subheading?: string;
+  phone?: string;
+  email?: string;
+  instagramUrl?: string;
+  mapEmbedUrl?: string;
+  visible?: boolean;
+  layout?: 'side-by-side' | 'stacked';
+  style?: BlockStyle;
+}
+
+const {
+  heading = 'Get in Touch',
+  subheading = "Ready to dive in? We'd love to hear from you",
+  phone = '0400 000 000',
+  email = 'info@jlswimming.com.au',
+  instagramUrl = 'https://instagram.com/jlswimming',
+  mapEmbedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d402859.6901565!2d144.49266!3d-37.97123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4df7%3A0x4045675218ccd90!2sMelbourne%20VIC!5e0!3m2!1sen!2sau!4v1',
+  visible = true,
+  layout = 'side-by-side',
+  style,
+} = Astro.props;
+
+if (!visible) return;
+
+const contactMethods = [
+  {
+    icon: 'phone',
+    label: 'Phone',
+    value: phone,
+    href: `tel:${phone?.replace(/\s/g, '')}`,
+    description: 'Call us for enquiries',
+  },
+  {
+    icon: 'email',
+    label: 'Email',
+    value: email,
+    href: `mailto:${email}`,
+    description: 'Send us a message',
+  },
+  {
+    icon: 'instagram',
+    label: 'Instagram',
+    value: '@jlswimming',
+    href: instagramUrl,
+    description: 'Follow our journey',
+  },
+];
+
+const styleVars = getBlockStyleVars(style);
+const styleClasses = getBlockClasses(style, 'bg-gradient-to-b from-white to-water-50/50 theme-default');
+
+const layoutColClass = layout === 'stacked' ? 'grid-cols-1 max-w-4xl mx-auto' : 'grid-cols-1 lg:grid-cols-2';
+---
+
+<section id="contact" class={`relative overflow-hidden ${styleClasses}`} style={styleVars}>
+  <!-- Background -->
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-pool-100/40 rounded-full filter blur-[120px]"></div>
+
+  <div class="section-container relative z-10">
+    <!-- Section Header -->
+    <div class="mb-16 reveal">
+      <div class={`flex items-center gap-2 mb-4 ${style?.textAlign === 'left' ? 'justify-start' : style?.textAlign === 'right' ? 'justify-end' : 'justify-center'}`}>
+        {style?.textAlign !== 'left' && <div class="w-8 h-0.5 bg-water-gradient rounded-full"></div>}
+        <span class="text-sm font-semibold text-water-600 uppercase tracking-wider">Contact</span>
+        {style?.textAlign !== 'right' && <div class="w-8 h-0.5 bg-water-gradient rounded-full"></div>}
+      </div>
+      <h2 class="section-heading" style={style?.headingColor ? `color: ${style.headingColor}` : ''}>
+        {heading}
+      </h2>
+      {subheading && (
+        <p class={`section-subheading mt-2 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
+          {subheading}
+        </p>
+      )}
+    </div>
+
+    <div class={`grid ${layoutColClass} gap-12 items-start`}>
+      <!-- Contact Info Cards -->
+      <div class="space-y-4 reveal">
+        {contactMethods.map((method, index) => (
+          <a
+            href={method.href}
+            target={method.icon === 'instagram' ? '_blank' : undefined}
+            rel={method.icon === 'instagram' ? 'noopener noreferrer' : undefined}
+            class="group flex items-center gap-5 p-5 bg-white rounded-2xl border border-gray-100 hover:border-water-200 shadow-sm hover:shadow-lg hover:shadow-water-600/5 hover:-translate-y-0.5 transition-all duration-300"
+            id={`contact-${method.icon}`}
+          >
+            {/* Icon */}
+            <div class="w-14 h-14 rounded-xl bg-water-gradient flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-300 shadow-lg shadow-water-600/20">
+              {method.icon === 'phone' && (
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+              )}
+              {method.icon === 'email' && (
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              )}
+              {method.icon === 'instagram' && (
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+              )}
+            </div>
+            <div class="flex-1 min-w-0 text-left">
+              <div class="text-sm text-gray-400 mb-0.5">{method.description}</div>
+              <div class="font-display font-semibold text-water-900 group-hover:text-water-700 transition-colors truncate">
+                {method.value}
+              </div>
+            </div>
+            <svg class="w-5 h-5 text-gray-300 group-hover:text-water-600 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        ))}
+
+        <!-- Additional CTA -->
+        <div class="mt-8 p-6 bg-water-gradient rounded-2xl text-center">
+          <h3 class="text-xl font-display font-bold text-white mb-2">Ready to start swimming?</h3>
+          <p class="text-white/70 text-sm mb-4">Join hundreds of families who trust JL Swimming</p>
+          <a
+            href={`mailto:${email}?subject=Enrolment%20Enquiry`}
+            class="inline-flex items-center gap-2 px-6 py-3 bg-white text-water-700 font-semibold rounded-xl hover:bg-white/90 transition-colors shadow-lg"
+            id="contact-enrol-cta"
+          >
+            Enquire Now
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Google Map Embed -->
+      <div class="reveal" style="animation-delay: 0.2s;">
+        <div class="rounded-2xl overflow-hidden shadow-2xl shadow-water-900/10 border border-gray-100">
+          {mapEmbedUrl ? (
+            <iframe
+              src={mapEmbedUrl}
+              width="100%"
+              height="480"
+              style="border:0;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="JL Swimming Locations"
+              class="w-full"
+              id="contact-map"
+            ></iframe>
+          ) : (
+            <div class="w-full h-[480px] bg-gradient-to-br from-water-100 to-pool-100 flex items-center justify-center">
+              <div class="text-center">
+                <svg class="w-16 h-16 text-water-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                </svg>
+                <p class="text-water-400 mt-3 font-medium">Google Maps</p>
+                <p class="text-water-300 text-sm">Map embed will appear here</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

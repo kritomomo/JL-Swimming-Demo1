@@ -1,0 +1,127 @@
+---
+import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+
+export interface Props {
+  heading?: string;
+  subheading?: string;
+  backgroundImage?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  visible?: boolean;
+  layout?: 'centered' | 'left-aligned' | 'split';
+  style?: BlockStyle;
+}
+
+const {
+  heading = 'JL Swimming',
+  subheading = 'From first strokes to elite performance',
+  backgroundImage,
+  ctaText = 'Enrol Now',
+  ctaLink = '#contact',
+  visible = true,
+  layout = 'centered',
+  style,
+} = Astro.props;
+
+if (!visible) return;
+
+const bgStyle = backgroundImage
+  ? `background-image: url('${backgroundImage}');`
+  : '';
+
+const styleVars = getBlockStyleVars(style);
+const styleClasses = getBlockClasses(style, 'theme-ocean');
+
+// Layout classes
+let alignmentClass = 'text-center mx-auto';
+if (layout === 'left-aligned') alignmentClass = 'text-left ml-0';
+if (layout === 'split') alignmentClass = 'text-left lg:w-1/2';
+---
+
+<section id="hero" class={`relative min-h-[100vh] flex items-center justify-center overflow-hidden wave-divider ${styleClasses}`} style={styleVars}>
+  <!-- Background -->
+  <div
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={bgStyle}
+  >
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-hero-overlay" style={style?.backgroundColor ? `background-color: ${style.backgroundColor}; opacity: 0.8;` : ''}></div>
+    <!-- Animated particles / water effect -->
+    <div class="absolute inset-0 opacity-20 hidden sm:block">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-pool-400 rounded-full filter blur-[120px] animate-float"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-water-400 rounded-full filter blur-[100px] animate-float" style="animation-delay: -3s;"></div>
+      <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-pool-300 rounded-full filter blur-[80px] animate-float" style="animation-delay: -1.5s;"></div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class={`relative z-10 section-container w-full`}>
+    <div class={`max-w-4xl ${alignmentClass}`}>
+      <!-- Badge -->
+      <div class="animate-fade-in mb-6">
+        <span class="badge bg-white/10 text-pool-300 backdrop-blur-sm border border-white/10 inline-flex">
+          <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Melbourne's Premier Swimming School
+        </span>
+      </div>
+
+      <!-- Heading -->
+      <h1
+        class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold text-white leading-[1.05] tracking-tight animate-fade-in-up"
+        style={style?.headingColor ? `color: ${style.headingColor}` : ''}
+      >
+        {heading}
+      </h1>
+
+      <!-- Subheading -->
+      {subheading && (
+        <p class={`mt-6 text-lg sm:text-xl md:text-2xl text-white/70 font-light max-w-2xl animate-fade-in-up ${layout === 'centered' ? 'mx-auto' : ''}`} style="animation-delay: 0.15s;">
+          {subheading}
+        </p>
+      )}
+
+      <!-- CTA Buttons -->
+      <div class={`mt-10 flex flex-col sm:flex-row items-center gap-4 animate-fade-in-up ${layout === 'centered' ? 'justify-center' : 'justify-start'}`} style="animation-delay: 0.3s;">
+        {ctaText && (
+          <a href={ctaLink} class="btn-primary text-lg px-10 py-4" id="hero-cta-primary">
+            {ctaText}
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        )}
+        <a href="#about" class="btn-secondary text-lg px-10 py-4" id="hero-cta-secondary">
+          Learn More
+        </a>
+      </div>
+
+      <!-- Stats row -->
+      <div class={`mt-16 grid grid-cols-3 gap-8 max-w-lg animate-fade-in ${layout === 'centered' ? 'mx-auto text-center' : 'mx-0 text-left'}`} style="animation-delay: 0.5s;">
+        <div class={layout === 'centered' ? 'text-center' : 'text-left'}>
+          <div class="text-3xl sm:text-4xl font-display font-bold text-white">5</div>
+          <div class="text-xs sm:text-sm text-white/50 mt-1">Locations</div>
+        </div>
+        <div class={`${layout === 'centered' ? 'text-center border-x border-white/10' : 'text-left border-l border-white/10 pl-8'}`}>
+          <div class="text-3xl sm:text-4xl font-display font-bold text-white">1000+</div>
+          <div class="text-xs sm:text-sm text-white/50 mt-1">Students</div>
+        </div>
+        <div class={`${layout === 'centered' ? 'text-center' : 'text-left border-l border-white/10 pl-8'}`}>
+          <div class="text-3xl sm:text-4xl font-display font-bold text-white">10+</div>
+          <div class="text-xs sm:text-sm text-white/50 mt-1">Years</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-fade-in" style="animation-delay: 0.8s;">
+    <a href="#about" class="flex flex-col items-center gap-2 text-white/40 hover:text-white/70 transition-colors">
+      <span class="text-xs uppercase tracking-widest">Scroll</span>
+      <div class="w-5 h-8 rounded-full border-2 border-current flex items-start justify-center p-1">
+        <div class="w-1 h-2 bg-current rounded-full animate-bounce"></div>
+      </div>
+    </a>
+  </div>
+</section>

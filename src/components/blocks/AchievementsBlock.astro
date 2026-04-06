@@ -1,0 +1,143 @@
+---
+import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+
+export interface AchievementItem {
+  image?: string;
+  title: string;
+  date?: string;
+  description?: string;
+}
+
+export interface Props {
+  heading?: string;
+  subheading?: string;
+  items?: AchievementItem[];
+  visible?: boolean;
+  layout?: 'grid-2col' | 'grid-3col' | 'list';
+  style?: BlockStyle;
+}
+
+const {
+  heading = 'Our Achievements',
+  subheading = 'Celebrating the success of our swimmers',
+  items = [],
+  visible = true,
+  layout = 'grid-2col',
+  style,
+} = Astro.props;
+
+if (!visible) return;
+
+const defaultItems: AchievementItem[] = [
+  {
+    title: 'State Championship Gold',
+    date: 'March 2025',
+    description: 'Our junior squad dominated the Victorian State Championships with 12 gold medals across freestyle and backstroke events.',
+  },
+  {
+    title: 'National Qualifying Times',
+    date: 'January 2025',
+    description: 'Five of our competitive swimmers achieved national qualifying times at the Summer Invitational, earning spots at the Australian Age Championships.',
+  },
+  {
+    title: 'Learn to Swim Milestone',
+    date: 'December 2024',
+    description: 'Over 500 students successfully completed our Learn to Swim program this year, with many progressing to squad training.',
+  },
+  {
+    title: 'Community Award',
+    date: 'October 2024',
+    description: 'JL Swimming was recognised by the City of Knox for outstanding contribution to community sport and youth development.',
+  },
+];
+
+const displayItems = items && items.length > 0 ? items : defaultItems;
+
+const styleVars = getBlockStyleVars(style);
+const styleClasses = getBlockClasses(style, 'bg-water-950 theme-dark');
+
+let gridClass = 'grid-cols-1 md:grid-cols-2';
+if (layout === 'grid-3col') gridClass = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+if (layout === 'list') gridClass = 'grid-cols-1 max-w-4xl mx-auto';
+---
+
+<section id="achievements" class={`relative overflow-hidden ${styleClasses}`} style={styleVars}>
+  <!-- Background decorations -->
+  <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+    <div class="absolute top-1/4 right-0 w-96 h-96 bg-water-800/30 rounded-full filter blur-[120px]"></div>
+    <div class="absolute bottom-1/4 left-0 w-80 h-80 bg-pool-800/20 rounded-full filter blur-[100px]"></div>
+  </div>
+
+  <div class="section-container relative z-10">
+    <!-- Section Header -->
+    <div class="mb-16 reveal">
+      <div class={`flex items-center gap-2 mb-4 ${style?.textAlign === 'left' ? 'justify-start' : style?.textAlign === 'right' ? 'justify-end' : 'justify-center'}`}>
+        {style?.textAlign !== 'left' && <div class="w-8 h-0.5 bg-pool-400 rounded-full"></div>}
+        <span class="text-sm font-semibold text-pool-400 uppercase tracking-wider">Achievements</span>
+        {style?.textAlign !== 'right' && <div class="w-8 h-0.5 bg-pool-400 rounded-full"></div>}
+      </div>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold leading-tight" style={style?.headingColor ? `color: ${style.headingColor}` : ''}>
+        {heading}
+      </h2>
+      {subheading && (
+        <p class={`text-lg opacity-80 mt-4 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
+          {subheading}
+        </p>
+      )}
+    </div>
+
+    <!-- Achievement Grid -->
+    <div class={`grid ${gridClass} gap-6 reveal-stagger`}>
+      {displayItems.map((item, index) => (
+        <article
+          class="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-500"
+          id={`achievement-${index}`}
+        >
+          <div class={`flex ${layout === 'list' ? 'flex-col sm:flex-row' : 'flex-col'}`}>
+            {/* Image */}
+            {item.image ? (
+              <div class={`${layout === 'list' ? 'sm:w-64 sm:h-auto' : 'w-full h-48'} flex-shrink-0 overflow-hidden`}>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                />
+              </div>
+            ) : (
+              <div class={`${layout === 'list' ? 'sm:w-64 sm:h-auto' : 'w-full h-48'} flex-shrink-0 bg-gradient-to-br from-water-700/30 to-pool-700/30 flex items-center justify-center`}>
+                <div class="text-center p-4">
+                  <svg class="w-10 h-10 text-pool-400/60 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99-2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0016.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.003 6.003 0 01-5.54 0"/>
+                  </svg>
+                </div>
+              </div>
+            )}
+
+            {/* Content */}
+            <div class="flex-1 p-6 text-left">
+              {item.date && (
+                <time class="text-xs font-semibold text-pool-400 uppercase tracking-wider">
+                  {item.date}
+                </time>
+              )}
+              <h3 class="text-lg font-display font-semibold mt-1.5 group-hover:text-pool-300 transition-colors">
+                {item.title}
+              </h3>
+              {item.description && (
+                <p class="text-sm opacity-80 mt-2 leading-relaxed">
+                  {item.description}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Hover glow */}
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+            <div class="absolute -top-20 -right-20 w-40 h-40 bg-pool-500/10 rounded-full filter blur-3xl"></div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+---
+export interface Props {
+  title?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+}
+
+const {
+  title = 'JL Swimming',
+  metaTitle,
+  metaDescription = 'JL Swimming — Melbourne\'s premier swimming school. From first strokes to elite performance. Lessons at Knox, Ashburton, Ringwood, Mont Albert & Clayton.',
+} = Astro.props;
+
+const seoTitle = metaTitle || title;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={metaDescription} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_AU" />
+
+    <title>{seoTitle}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <slot name="header" />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <slot name="footer" />
+
+    <!-- Scroll Reveal Observer -->
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+
+      document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+  </body>
+</html>
