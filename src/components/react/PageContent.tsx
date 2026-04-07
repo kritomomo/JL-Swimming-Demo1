@@ -1,6 +1,7 @@
 import { tinaField, useTina } from 'tinacms/dist/react';
 import React from 'react';
 import { type BlockStyle, getBlockStyleObject, getBlockClasses } from '../../utils/style';
+import RichText from './RichText';
 
 interface BlockRendererProps {
   query: string;
@@ -25,9 +26,7 @@ const BlockHero: React.FC<{ block: any }> = ({ block }) => {
             {block.heading}
           </h1>
           {block.subheading && (
-            <p className="text-xl text-white/70" data-tina-field={tinaField(block, 'subheading')}>
-              {block.subheading}
-            </p>
+            <RichText content={block.subheading} className="text-xl text-white/70" />
           )}
           {block.ctaText && (
             <a href={block.ctaLink || '#'} className="mt-8 inline-block px-8 py-3 bg-white/20 rounded-xl text-white border border-white/30" data-tina-field={tinaField(block, 'ctaText')}>
@@ -43,7 +42,7 @@ const BlockHero: React.FC<{ block: any }> = ({ block }) => {
 const BlockAbout: React.FC<{ block: any }> = ({ block }) => {
   if (block.visible === false) return <div className="opacity-50 pointer-events-none">[Hidden About Section]</div>;
   const styleVars = getBlockStyleObject(block.style);
-  const styleClasses = getBlockClasses(block.style, 'bg-white theme-default');
+  const styleClasses = getBlockClasses(block.style, 'bg-pool-50/50 theme-default');
   const layoutColClass = block.layout === 'stacked' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2';
   const textOrderClass = block.layout === 'image-left' ? 'order-2' : 'order-1';
   const imageOrderClass = block.layout === 'image-left' ? 'order-1' : 'order-2';
@@ -56,9 +55,7 @@ const BlockAbout: React.FC<{ block: any }> = ({ block }) => {
             {block.heading}
           </h2>
           <div data-tina-field={tinaField(block, 'body')}>
-            {block.body?.split('\n').filter(Boolean).map((p: string, i: number) => (
-              <p key={i} className="text-gray-600 leading-relaxed mb-4">{p}</p>
-            ))}
+            <RichText content={block.body} className="text-gray-600 leading-relaxed max-w-none" />
           </div>
         </div>
         {block.image && (
@@ -86,9 +83,9 @@ const BlockAchievements: React.FC<{ block: any }> = ({ block }) => {
           {block.heading}
         </h2>
         {block.subheading && (
-          <p className="text-center opacity-70 mb-10" data-tina-field={tinaField(block, 'subheading')}>
-            {block.subheading}
-          </p>
+          <div data-tina-field={tinaField(block, 'subheading')}>
+            <RichText content={block.subheading} className="text-center opacity-70 mb-10" />
+          </div>
         )}
         <div className={`grid ${gridClass} gap-6`}>
           {block.items?.map((item: any, i: number) => (
@@ -99,7 +96,9 @@ const BlockAchievements: React.FC<{ block: any }> = ({ block }) => {
               <div className="flex-1 p-2">
                 <p className="text-xs text-cyan-400 uppercase tracking-wider">{item.date}</p>
                 <h3 className="text-lg font-semibold mt-1" data-tina-field={tinaField(item, 'title')}>{item.title}</h3>
-                <p className="text-sm opacity-60 mt-2" data-tina-field={tinaField(item, 'description')}>{item.description}</p>
+                <div data-tina-field={tinaField(item, 'description')} className="mt-2">
+                  <RichText content={item.description} className="text-sm opacity-60" />
+                </div>
               </div>
             </div>
           ))}
@@ -124,9 +123,9 @@ const BlockLocations: React.FC<{ block: any }> = ({ block }) => {
           {block.heading}
         </h2>
         {block.subheading && (
-          <p className="text-center opacity-70 mb-10" data-tina-field={tinaField(block, 'subheading')}>
-            {block.subheading}
-          </p>
+          <div data-tina-field={tinaField(block, 'subheading')}>
+            <RichText content={block.subheading} className="text-center opacity-70 mb-10" />
+          </div>
         )}
         <div className={`grid ${gridClass} gap-6`}>
           {block.locations?.map((loc: any, i: number) => (
@@ -148,7 +147,7 @@ const BlockLocations: React.FC<{ block: any }> = ({ block }) => {
 const BlockContact: React.FC<{ block: any }> = ({ block }) => {
   if (block.visible === false) return <div className="opacity-50 pointer-events-none">[Hidden Contact Section]</div>;
   const styleVars = getBlockStyleObject(block.style);
-  const styleClasses = getBlockClasses(block.style, 'bg-white theme-default');
+  const styleClasses = getBlockClasses(block.style, 'bg-water-50/80 theme-default');
   const layoutColClass = block.layout === 'stacked' ? 'grid-cols-1 max-w-4xl mx-auto' : 'grid-cols-1 lg:grid-cols-2 max-w-6xl mx-auto';
 
   return (
@@ -157,9 +156,9 @@ const BlockContact: React.FC<{ block: any }> = ({ block }) => {
         {block.heading}
       </h2>
       {block.subheading && (
-        <p className="text-center opacity-70 mb-10" data-tina-field={tinaField(block, 'subheading')}>
-          {block.subheading}
-        </p>
+        <div data-tina-field={tinaField(block, 'subheading')}>
+          <RichText content={block.subheading} className="text-center opacity-70 mb-10" />
+        </div>
       )}
       <div className={`grid ${layoutColClass} gap-12`}>
         <div className="space-y-4 text-center">
@@ -180,6 +179,9 @@ const blockMap: Record<string, React.FC<{ block: any }>> = {
 };
 
 export default function PageContent(props: BlockRendererProps) {
+  // Prevent Astro from duplicating HTML during Server-Side Rendering
+  if (typeof window === 'undefined') return null;
+
   const { data } = useTina({
     query: props.query,
     variables: props.variables,

@@ -1,9 +1,10 @@
 ---
 import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+import AstroRichText from '../AstroRichText.astro';
 
 export interface Props {
   heading?: string;
-  subheading?: string;
+  subheading?: any;
   backgroundImage?: string;
   ctaText?: string;
   ctaLink?: string;
@@ -77,9 +78,9 @@ if (layout === 'split') alignmentClass = 'text-left lg:w-1/2';
 
       <!-- Subheading -->
       {subheading && (
-        <p class={`mt-6 text-lg sm:text-xl md:text-2xl text-white/70 font-light max-w-2xl animate-fade-in-up ${layout === 'centered' ? 'mx-auto' : ''}`} style="animation-delay: 0.15s;">
-          {subheading}
-        </p>
+        <div class={`mt-6 animate-fade-in-up ${layout === 'centered' ? 'mx-auto text-center' : ''}`} style="animation-delay: 0.15s;">
+          <AstroRichText content={subheading} className="text-lg sm:text-xl md:text-2xl text-white/70 font-light max-w-2xl" />
+        </div>
       )}
 
       <!-- CTA Buttons -->

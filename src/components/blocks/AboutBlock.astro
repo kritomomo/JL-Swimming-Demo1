@@ -1,9 +1,10 @@
 ---
 import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+import AstroRichText from '../AstroRichText.astro';
 
 export interface Props {
   heading?: string;
-  body?: string;
+  body?: any;
   image?: string;
   visible?: boolean;
   layout?: 'image-right' | 'image-left' | 'stacked';
@@ -21,13 +22,8 @@ const {
 
 if (!visible) return;
 
-const defaultText = "JL Swimming is Melbourne's trusted swimming school dedicated to nurturing swimmers of all ages and skill levels. With over a decade of experience, our certified instructors provide personalised coaching in a safe and supportive environment.\n\nWhether your child is learning their first strokes or training for competitive swimming, we tailor our programs to help every swimmer reach their full potential. Our proven methodology combines technique, endurance, and confidence-building to deliver results.";
-
-const bodyText = (typeof body === 'string' && body.trim().length > 0) ? body : defaultText;
-const paragraphs = bodyText.split(/\n\n+/).filter((p: string) => p.trim().length > 0);
-
 const styleVars = getBlockStyleVars(style);
-const styleClasses = getBlockClasses(style, 'bg-gradient-to-b from-white via-water-50/30 to-white theme-default');
+const styleClasses = getBlockClasses(style, 'bg-pool-50/50 theme-default');
 
 const layoutColClass = layout === 'stacked' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2';
 const textOrderClass = layout === 'image-left' ? 'order-2' : 'order-1';
@@ -53,10 +49,8 @@ const imageOrderClass = layout === 'image-left' ? 'order-1' : 'order-2';
           {heading}
         </h2>
 
-        <div class="text-lg">
-          {paragraphs.map((p: string) => (
-            <p class="mb-4 text-gray-600 leading-relaxed">{p}</p>
-          ))}
+        <div class="text-lg mt-6">
+          <AstroRichText content={body} className="text-gray-600" />
         </div>
 
         <!-- Features row -->

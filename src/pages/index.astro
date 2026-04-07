@@ -67,6 +67,20 @@ const blockComponents: Record<string, any> = {
 };
 ---
 
+<script>
+  // If we are running inside the TinaCMS admin iframe, add a class to hide static blocks
+  if (typeof window !== 'undefined' && window.self !== window.top) {
+    document.documentElement.classList.add('tina-edit-mode');
+  }
+</script>
+
+<style>
+  /* Hide the static ASTRO blocks when the React visual editor takes over */
+  :global(html.tina-edit-mode #astro-prod-blocks) {
+    display: none !important;
+  }
+</style>
+
 <BaseLayout title={title} metaTitle={metaTitle} metaDescription={metaDescription}>
   <Header 
     slot="header" 
@@ -81,23 +95,25 @@ const blockComponents: Record<string, any> = {
   )}
 
   {/* Static Rendering: Astro components for the production site */}
-  {blocks.length > 0 ? (
-    blocks.map((block: any) => {
-      const typename = block.__typename;
-      const Component = blockComponents[typename];
-      if (!Component) return null;
-      return <Component {...block} />;
-    })
-  ) : (
-    <>
-      {/* Fallback: render all blocks with defaults when no CMS data */}
-      <HeroBlock />
-      <AboutBlock />
-      <AchievementsBlock />
-      <LocationsBlock />
-      <ContactBlock />
-    </>
-  )}
+  <div id="astro-prod-blocks">
+    {blocks.length > 0 ? (
+      blocks.map((block: any) => {
+        const typename = block.__typename;
+        const Component = blockComponents[typename];
+        if (!Component) return null;
+        return <Component {...block} />;
+      })
+    ) : (
+      <>
+        {/* Fallback: render all blocks with defaults when no CMS data */}
+        <HeroBlock />
+        <AboutBlock />
+        <AchievementsBlock />
+        <LocationsBlock />
+        <ContactBlock />
+      </>
+    )}
+  </div>
 
   <Footer 
     slot="footer" 

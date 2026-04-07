@@ -1,5 +1,6 @@
 ---
 import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+import AstroRichText from '../AstroRichText.astro';
 
 export interface LocationItem {
   name: string;
@@ -11,7 +12,7 @@ export interface LocationItem {
 
 export interface Props {
   heading?: string;
-  subheading?: string;
+  subheading?: any;
   locations?: LocationItem[];
   visible?: boolean;
   columns?: '2' | '3' | '4';
@@ -69,7 +70,7 @@ const colorVariants = [
 ];
 
 const styleVars = getBlockStyleVars(style);
-const styleClasses = getBlockClasses(style, 'bg-gradient-to-b from-white via-water-50/20 to-white theme-default');
+const styleClasses = getBlockClasses(style, 'bg-white theme-default');
 
 let gridClass = 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
 if (columns === '2') gridClass = 'grid-cols-1 sm:grid-cols-2';
@@ -92,9 +93,9 @@ if (columns === '4') gridClass = 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
         {heading}
       </h2>
       {subheading && (
-        <p class={`section-subheading mt-2 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
-          {subheading}
-        </p>
+        <div class={`mt-2 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
+          <AstroRichText content={subheading} className="section-subheading" />
+        </div>
       )}
     </div>
 

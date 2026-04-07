@@ -114,7 +114,7 @@ const heroBlock: Template = {
       required: true,
     },
     {
-      type: 'string' as const,
+      type: 'rich-text' as const,
       name: 'subheading',
       label: 'Sub-heading',
     },
@@ -165,12 +165,9 @@ const aboutBlock: Template = {
       required: true,
     },
     {
-      type: 'string' as const,
+      type: 'rich-text' as const,
       name: 'body',
       label: 'Body Content',
-      ui: {
-        component: 'textarea',
-      },
     },
     {
       type: 'image' as const,
@@ -201,12 +198,9 @@ const achievementItem = {
       label: 'Date',
     },
     {
-      type: 'string' as const,
+      type: 'rich-text' as const,
       name: 'description',
       label: 'Description',
-      ui: {
-        component: 'textarea',
-      },
     },
   ],
 };
@@ -240,7 +234,7 @@ const achievementsBlock: Template = {
       required: true,
     },
     {
-      type: 'string' as const,
+      type: 'rich-text' as const,
       name: 'subheading',
       label: 'Sub-heading',
     },
@@ -322,7 +316,7 @@ const locationsBlock: Template = {
       required: true,
     },
     {
-      type: 'string' as const,
+      type: 'rich-text' as const,
       name: 'subheading',
       label: 'Sub-heading',
     },
@@ -369,7 +363,7 @@ const contactBlock: Template = {
       required: true,
     },
     {
-      type: 'string' as const,
+      type: 'rich-text' as const,
       name: 'subheading',
       label: 'Sub-heading',
     },

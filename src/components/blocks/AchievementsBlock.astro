@@ -1,16 +1,17 @@
 ---
 import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+import AstroRichText from '../AstroRichText.astro';
 
 export interface AchievementItem {
   image?: string;
   title: string;
   date?: string;
-  description?: string;
+  description?: any;
 }
 
 export interface Props {
   heading?: string;
-  subheading?: string;
+  subheading?: any;
   items?: AchievementItem[];
   visible?: boolean;
   layout?: 'grid-2col' | 'grid-3col' | 'list';
@@ -80,9 +81,9 @@ if (layout === 'list') gridClass = 'grid-cols-1 max-w-4xl mx-auto';
         {heading}
       </h2>
       {subheading && (
-        <p class={`text-lg opacity-80 mt-4 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
-          {subheading}
-        </p>
+        <div class={`mt-4 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
+          <AstroRichText content={subheading} className="text-lg opacity-80" />
+        </div>
       )}
     </div>
 
@@ -125,9 +126,9 @@ if (layout === 'list') gridClass = 'grid-cols-1 max-w-4xl mx-auto';
                 {item.title}
               </h3>
               {item.description && (
-                <p class="text-sm opacity-80 mt-2 leading-relaxed">
-                  {item.description}
-                </p>
+                <div class="mt-2 text-sm opacity-80 leading-relaxed">
+                  <AstroRichText content={item.description} className="" />
+                </div>
               )}
             </div>
           </div>

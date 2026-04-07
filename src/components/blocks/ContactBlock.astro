@@ -1,9 +1,10 @@
 ---
 import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+import AstroRichText from '../AstroRichText.astro';
 
 export interface Props {
   heading?: string;
-  subheading?: string;
+  subheading?: any;
   phone?: string;
   email?: string;
   instagramUrl?: string;
@@ -52,7 +53,7 @@ const contactMethods = [
 ];
 
 const styleVars = getBlockStyleVars(style);
-const styleClasses = getBlockClasses(style, 'bg-gradient-to-b from-white to-water-50/50 theme-default');
+const styleClasses = getBlockClasses(style, 'bg-water-50/80 theme-default');
 
 const layoutColClass = layout === 'stacked' ? 'grid-cols-1 max-w-4xl mx-auto' : 'grid-cols-1 lg:grid-cols-2';
 ---
@@ -73,9 +74,9 @@ const layoutColClass = layout === 'stacked' ? 'grid-cols-1 max-w-4xl mx-auto' : 
         {heading}
       </h2>
       {subheading && (
-        <p class={`section-subheading mt-2 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
-          {subheading}
-        </p>
+        <div class={`mt-2 max-w-2xl ${style?.textAlign === 'left' ? 'mr-auto' : style?.textAlign === 'right' ? 'ml-auto' : 'mx-auto'}`}>
+          <AstroRichText content={subheading} className="section-subheading" />
+        </div>
       )}
     </div>
 

@@ -28,12 +28,28 @@ export function getBlockStyleObject(style?: BlockStyle): Record<string, string> 
 }
 
 export function getBlockClasses(style?: BlockStyle, defaultTheme: string = ''): string {
-  if (!style) return defaultTheme;
+  if (!style) return defaultTheme ? `${defaultTheme} py-16 sm:py-20 lg:py-28` : 'py-16 sm:py-20 lg:py-28';
   const classes: string[] = [];
   
-  // Theme
-  const theme = style.theme && style.theme !== 'default' ? `theme-${style.theme}` : defaultTheme;
-  if (theme) classes.push(theme);
+  // Theme Backgrounds
+  let themeClasses = defaultTheme;
+  if (style.theme && style.theme !== 'default') {
+    switch (style.theme) {
+      case 'ocean':
+        themeClasses = 'bg-water-900 text-white';
+        break;
+      case 'pool':
+        themeClasses = 'bg-pool-500 text-white';
+        break;
+      case 'dark':
+        themeClasses = 'bg-water-950 text-white';
+        break;
+      case 'light':
+        themeClasses = 'bg-water-50 text-gray-800';
+        break;
+    }
+  }
+  if (themeClasses) classes.push(themeClasses);
   
   // Text Align
   if (style.textAlign) {
@@ -45,8 +61,14 @@ export function getBlockClasses(style?: BlockStyle, defaultTheme: string = ''): 
   if (style.fontSize === 'large') classes.push('text-lg');
   
   // Spacing
-  if (style.sectionSpacing === 'compact') classes.push('py-10');
-  else if (style.sectionSpacing === 'spacious') classes.push('py-32');
+  if (style.sectionSpacing === 'compact') {
+    classes.push('py-12 sm:py-16');
+  } else if (style.sectionSpacing === 'spacious') {
+    classes.push('py-24 sm:py-32 lg:py-40');
+  } else {
+    // Normal spacing should match old section-padding
+    classes.push('py-16 sm:py-20 lg:py-28');
+  }
   
   return classes.join(' ');
 }
