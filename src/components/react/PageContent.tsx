@@ -1,6 +1,6 @@
 import { tinaField, useTina } from 'tinacms/dist/react';
 import React from 'react';
-import { type BlockStyle, getBlockStyleVars, getBlockClasses } from '../../utils/style';
+import { type BlockStyle, getBlockStyleObject, getBlockClasses } from '../../utils/style';
 
 interface BlockRendererProps {
   query: string;
@@ -11,14 +11,14 @@ interface BlockRendererProps {
 const BlockHero: React.FC<{ block: any }> = ({ block }) => {
   if (block.visible === false) return <div className="opacity-50 pointer-events-none">[Hidden Hero Section]</div>;
   const bgStyle = block.backgroundImage ? { backgroundImage: `url(${block.backgroundImage})` } : {};
-  const styleVars = getBlockStyleVars(block.style);
+  const styleVars = getBlockStyleObject(block.style);
   const styleClasses = getBlockClasses(block.style, 'theme-ocean');
   let alignmentClass = 'text-center mx-auto';
   if (block.layout === 'left-aligned') alignmentClass = 'text-left ml-0';
   if (block.layout === 'split') alignmentClass = 'text-left lg:w-1/2';
 
   return (
-    <section id="hero" className={`relative min-h-[100vh] flex items-center justify-center overflow-hidden wave-divider ${styleClasses}`} style={{ ...bgStyle, ...styleVars as React.CSSProperties }} data-tina-field={tinaField(block, 'style')}>
+    <section id="hero" className={`relative min-h-[100vh] flex items-center justify-center overflow-hidden wave-divider ${styleClasses}`} style={{ ...bgStyle, ...styleVars }} data-tina-field={tinaField(block, 'style')}>
       <div className={`relative z-10 section-container w-full`}>
         <div className={`max-w-4xl ${alignmentClass}`}>
           <h1 className="text-5xl md:text-7xl font-bold mb-4" data-tina-field={tinaField(block, 'heading')} style={block.style?.headingColor ? { color: block.style.headingColor } : {}}>
@@ -42,14 +42,14 @@ const BlockHero: React.FC<{ block: any }> = ({ block }) => {
 
 const BlockAbout: React.FC<{ block: any }> = ({ block }) => {
   if (block.visible === false) return <div className="opacity-50 pointer-events-none">[Hidden About Section]</div>;
-  const styleVars = getBlockStyleVars(block.style);
+  const styleVars = getBlockStyleObject(block.style);
   const styleClasses = getBlockClasses(block.style, 'bg-white theme-default');
   const layoutColClass = block.layout === 'stacked' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2';
   const textOrderClass = block.layout === 'image-left' ? 'order-2' : 'order-1';
   const imageOrderClass = block.layout === 'image-left' ? 'order-1' : 'order-2';
 
   return (
-    <section id="about" className={`py-20 px-4 mx-auto ${styleClasses}`} style={styleVars as React.CSSProperties} data-tina-field={tinaField(block, 'style')}>
+    <section id="about" className={`py-20 px-4 mx-auto ${styleClasses}`} style={styleVars} data-tina-field={tinaField(block, 'style')}>
       <div className={`grid ${layoutColClass} gap-12 items-center max-w-6xl mx-auto`}>
         <div className={textOrderClass}>
           <h2 className="text-4xl font-bold mb-6" data-tina-field={tinaField(block, 'heading')} style={block.style?.headingColor ? { color: block.style.headingColor } : {}}>
@@ -73,14 +73,14 @@ const BlockAbout: React.FC<{ block: any }> = ({ block }) => {
 
 const BlockAchievements: React.FC<{ block: any }> = ({ block }) => {
   if (block.visible === false) return <div className="opacity-50 pointer-events-none">[Hidden Achievements Section]</div>;
-  const styleVars = getBlockStyleVars(block.style);
+  const styleVars = getBlockStyleObject(block.style);
   const styleClasses = getBlockClasses(block.style, 'bg-water-950 theme-dark text-white');
   let gridClass = 'grid-cols-1 md:grid-cols-2';
   if (block.layout === 'grid-3col') gridClass = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
   if (block.layout === 'list') gridClass = 'grid-cols-1 max-w-4xl mx-auto';
 
   return (
-    <section id="achievements" className={`py-20 ${styleClasses}`} style={styleVars as React.CSSProperties} data-tina-field={tinaField(block, 'style')}>
+    <section id="achievements" className={`py-20 ${styleClasses}`} style={styleVars} data-tina-field={tinaField(block, 'style')}>
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-4" data-tina-field={tinaField(block, 'heading')} style={block.style?.headingColor ? { color: block.style.headingColor } : {}}>
           {block.heading}
@@ -111,14 +111,14 @@ const BlockAchievements: React.FC<{ block: any }> = ({ block }) => {
 
 const BlockLocations: React.FC<{ block: any }> = ({ block }) => {
   if (block.visible === false) return <div className="opacity-50 pointer-events-none">[Hidden Locations Section]</div>;
-  const styleVars = getBlockStyleVars(block.style);
+  const styleVars = getBlockStyleObject(block.style);
   const styleClasses = getBlockClasses(block.style, 'bg-white theme-default');
   let gridClass = 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
   if (block.columns === '2') gridClass = 'grid-cols-1 sm:grid-cols-2';
   if (block.columns === '4') gridClass = 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
 
   return (
-    <section id="locations" className={`py-20 px-4 ${styleClasses}`} style={styleVars as React.CSSProperties} data-tina-field={tinaField(block, 'style')}>
+    <section id="locations" className={`py-20 px-4 ${styleClasses}`} style={styleVars} data-tina-field={tinaField(block, 'style')}>
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-4" data-tina-field={tinaField(block, 'heading')} style={block.style?.headingColor ? { color: block.style.headingColor } : {}}>
           {block.heading}
@@ -147,12 +147,12 @@ const BlockLocations: React.FC<{ block: any }> = ({ block }) => {
 
 const BlockContact: React.FC<{ block: any }> = ({ block }) => {
   if (block.visible === false) return <div className="opacity-50 pointer-events-none">[Hidden Contact Section]</div>;
-  const styleVars = getBlockStyleVars(block.style);
+  const styleVars = getBlockStyleObject(block.style);
   const styleClasses = getBlockClasses(block.style, 'bg-white theme-default');
   const layoutColClass = block.layout === 'stacked' ? 'grid-cols-1 max-w-4xl mx-auto' : 'grid-cols-1 lg:grid-cols-2 max-w-6xl mx-auto';
 
   return (
-    <section id="contact" className={`py-20 px-4 ${styleClasses}`} style={styleVars as React.CSSProperties} data-tina-field={tinaField(block, 'style')}>
+    <section id="contact" className={`py-20 px-4 ${styleClasses}`} style={styleVars} data-tina-field={tinaField(block, 'style')}>
       <h2 className="text-4xl font-bold text-center mb-4" data-tina-field={tinaField(block, 'heading')} style={block.style?.headingColor ? { color: block.style.headingColor } : {}}>
         {block.heading}
       </h2>

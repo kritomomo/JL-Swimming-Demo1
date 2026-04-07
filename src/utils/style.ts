@@ -18,6 +18,15 @@ export function getBlockStyleVars(style?: BlockStyle): string {
   return vars.join('; ');
 }
 
+export function getBlockStyleObject(style?: BlockStyle): Record<string, string> {
+  if (!style) return {};
+  const obj: Record<string, string> = {};
+  if (style.backgroundColor) {
+    obj.backgroundColor = style.backgroundColor;
+  }
+  return obj;
+}
+
 export function getBlockClasses(style?: BlockStyle, defaultTheme: string = ''): string {
   if (!style) return defaultTheme;
   const classes: string[] = [];
