@@ -1,5 +1,5 @@
 {
-  "title": "JL Swimming \u2014 Melbourne Swimming School",
+  "title": "JL Swimming — Melbourne Swimming School",
   "metaTitle": "JL Swimming | Melbourne's Premier Swimming School",
   "metaDescription": "JL Swimming offers expert swimming lessons across 5 Melbourne locations. From learn-to-swim for beginners to competitive squad training. Enrol today!",
   "blocks": [
@@ -11,20 +11,7 @@
         "textAlign": "center"
       },
       "heading": "JL Swimming",
-      "subheading": {
-        "type": "root",
-        "children": [
-          {
-            "type": "p",
-            "children": [
-              {
-                "type": "text",
-                "text": "From first strokes to elite performance"
-              }
-            ]
-          }
-        ]
-      },
+      "subheading": "JL Swimming offers expert swimming lessons across 5 Melbourne locations. From learn-to-swim for beginners to competitive squad training. Enrol today!\n",
       "ctaText": "Enrol Now",
       "ctaLink": "#contact",
       "_template": "hero"
@@ -37,29 +24,7 @@
         "textAlign": "left"
       },
       "heading": "About JL Swimming",
-      "body": {
-        "type": "root",
-        "children": [
-          {
-            "type": "p",
-            "children": [
-              {
-                "type": "text",
-                "text": "JL Swimming is Melbourne's trusted swimming school dedicated to nurturing swimmers of all ages and skill levels. With over a decade of experience, our certified instructors provide personalised coaching in a safe and supportive environment."
-              }
-            ]
-          },
-          {
-            "type": "p",
-            "children": [
-              {
-                "type": "text",
-                "text": "Whether your child is learning their first strokes or training for competitive swimming, we tailor our programs to help every swimmer reach their full potential. Our proven methodology combines technique, endurance, and confidence-building to deliver results."
-              }
-            ]
-          }
-        ]
-      },
+      "body": "\\[object Object]\n",
       "_template": "about"
     },
     {
@@ -70,101 +35,27 @@
         "textAlign": "center"
       },
       "heading": "Our Achievements",
-      "subheading": {
-        "type": "root",
-        "children": [
-          {
-            "type": "p",
-            "children": [
-              {
-                "type": "text",
-                "text": "Celebrating the success of our swimmers"
-              }
-            ]
-          }
-        ]
-      },
+      "subheading": "\\[object Object]\n",
       "items": [
         {
           "title": "State Championship Gold",
           "date": "March 2025",
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "p",
-                "children": [
-                  {
-                    "type": "text",
-                    "text": "Our junior squad dominated the Victorian State Championships with 12 gold medals across freestyle and backstroke events."
-                  }
-                ]
-              },
-              {
-                "type": "p",
-                "children": [
-                  {
-                    "type": "text",
-                    "text": "Test"
-                  }
-                ]
-              }
-            ]
-          }
+          "description": ""
         },
         {
           "title": "National Qualifying Times",
           "date": "January 2025",
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "p",
-                "children": [
-                  {
-                    "type": "text",
-                    "text": "Five of our competitive swimmers achieved national qualifying times at the Summer Invitational."
-                  }
-                ]
-              }
-            ]
-          }
+          "description": ""
         },
         {
           "title": "Learn to Swim Milestone",
           "date": "December 2024",
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "p",
-                "children": [
-                  {
-                    "type": "text",
-                    "text": "Over 500 students successfully completed our Learn to Swim program this year."
-                  }
-                ]
-              }
-            ]
-          }
+          "description": ""
         },
         {
           "title": "Community Award",
           "date": "October 2024",
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "p",
-                "children": [
-                  {
-                    "type": "text",
-                    "text": "JL Swimming was recognised by the City of Knox for outstanding contribution to community sport."
-                  }
-                ]
-              }
-            ]
-          }
+          "description": ""
         }
       ],
       "_template": "achievements"
@@ -177,20 +68,7 @@
         "textAlign": "center"
       },
       "heading": "Our Locations",
-      "subheading": {
-        "type": "root",
-        "children": [
-          {
-            "type": "p",
-            "children": [
-              {
-                "type": "text",
-                "text": "Five convenient locations across Melbourne"
-              }
-            ]
-          }
-        ]
-      },
+      "subheading": "\\[object Object]\n",
       "locations": [
         {
           "name": "Knox",
@@ -228,20 +106,7 @@
         "textAlign": "center"
       },
       "heading": "Get in Touch",
-      "subheading": {
-        "type": "root",
-        "children": [
-          {
-            "type": "p",
-            "children": [
-              {
-                "type": "text",
-                "text": "Ready to dive in? We'd love to hear from you"
-              }
-            ]
-          }
-        ]
-      },
+      "subheading": "\\[object Object]\n",
       "phone": "0400 000 000",
       "email": "info@jlswimming.com.au",
       "instagramUrl": "https://instagram.com/jlswimming",
